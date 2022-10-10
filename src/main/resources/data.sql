@@ -14,19 +14,19 @@ insert into users(user_id, email, nickname, password) values
 
 -- schedule 추가
 insert into schedule(id, name, category, description, start_time, end_time, location, repeat_option) values
-    (1L, 'Backend Study', 'STUDY', 'backend study gogo', '2022-10-12 16:30:00', '2022-10-12 18:30:00', 'blindmelon', 'WEEK')
+    (1, 'Backend Study', 'STUDY', 'backend study gogo', '2022-10-12 16:30:00', '2022-10-12 18:30:00', 'blindmelon', 'WEEK')
 ;
 
 -- plan 추가
 insert into plan(id, schedule_id, user_id) values
-    (1L, 1L, 'a')
+    (1, 1, 'a')
 ;
 insert into plan(id, schedule_id, user_id) values
-    (2L, 1L, 'b')
+    (2, 1, 'b')
 ;
 insert into plan(id, schedule_id, user_id) values
-    (3L, 1L, 'c')
+    (3, 1, 'c')
 ;
 insert into plan(id, schedule_id, user_id) values
-    (4L, 1L, 'd')
+    (4, 1, 'd')
 ;
