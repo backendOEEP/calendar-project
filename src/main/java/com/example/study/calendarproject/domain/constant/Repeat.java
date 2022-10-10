@@ -1,5 +1,5 @@
 package com.example.study.calendarproject.domain.constant;
 
-public enum RepeatOption {
+public enum Repeat {
     DAY, WEEK, MONTH, YEAR, ETC
 }

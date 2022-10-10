@@ -1,7 +1,7 @@
 package com.example.study.calendarproject.domain;
 
 import com.example.study.calendarproject.domain.constant.Category;
-import com.example.study.calendarproject.domain.constant.RepeatOption;
+import com.example.study.calendarproject.domain.constant.Repeat;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -17,6 +17,7 @@ import java.util.Set;
 @Table(indexes = {
         @Index(columnList = "name"),
         @Index(columnList = "category"),
+        @Index(columnList = "date"),
         @Index(columnList = "start_time")
 })
 @Entity
@@ -33,24 +34,24 @@ public class Schedule {
 
     //Nullable 필드
     @Setter private String description; //설명
-    @Setter @Enumerated(EnumType.STRING) private RepeatOption repeatOption; //반복 옵션
+    @Setter @Enumerated(EnumType.STRING) private Repeat repeat; //반복 옵션
 
     @ToString.Exclude @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL)
     private final Set<Plan> schedulePlans = new LinkedHashSet<>();
 
     protected Schedule() {}
 
-    private Schedule(String name, String location, Category category, LocalDateTime start_time, LocalDateTime end_time, String description, RepeatOption repeatOption) {
+    private Schedule(String name, String location, Category category, LocalDateTime start_time, LocalDateTime end_time, String description, Repeat repeat) {
         this.name = name;
         this.location = location;
         this.category = category;
         this.start_time = start_time;
         this.end_time = end_time;
         this.description = description;
-        this.repeatOption = repeatOption;
+        this.repeat = repeat;
     }
 
-    public static Schedule of(String name, String location, Category category, LocalDateTime start_time, LocalDateTime end_time, String description, RepeatOption repeat){
+    public static Schedule of(String name, String location, Category category, LocalDateTime start_time, LocalDateTime end_time, String description, Repeat repeat){
         return new Schedule(name, location, category, start_time, end_time, description, repeat);
     }
 
