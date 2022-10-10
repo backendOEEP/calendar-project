@@ -11,7 +11,7 @@ import java.util.Set;
 
 @Getter
 @ToString
-@Table(indexes = {
+@Table(name = "users", indexes = {
         @Index(columnList = "userId", unique = true),
         @Index(columnList = "nickname", unique = true)
 })

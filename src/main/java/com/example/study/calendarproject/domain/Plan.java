@@ -10,8 +10,8 @@ import java.util.Objects;
 @Getter
 @ToString
 @Table(indexes = {
-        @Index(columnList = "schedule_id"),
-        @Index(columnList = "user_id")
+        @Index(columnList = "user_id"),
+        @Index(columnList = "schedule_id")
 })
 @Entity
 public class Plan {
@@ -21,7 +21,7 @@ public class Plan {
     @Setter @ManyToOne(optional = false)
     private Schedule schedule;
 
-    @Setter @ManyToOne(optional = false) @JoinColumn(name = "userId")
+    @Setter @ManyToOne(optional = false) @JoinColumn(name = "user_id")
     private User user;
 
     protected Plan() {}
