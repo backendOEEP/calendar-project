@@ -22,6 +22,7 @@ public class ScheduleDto {
     }
 
     private ScheduleDto(Long id, String name, String location, Category category, LocalDateTime start_time, LocalDateTime end_time, String description, RepeatOption repeatOption) {
+        validateDateTime(start_time, end_time);
         this.id = id;
         this.name = name;
         this.location = location;
@@ -51,5 +52,10 @@ public class ScheduleDto {
 
     public Schedule toEntity() {
         return Schedule.of(name, location, category, start_time, end_time, description, repeatOption);
+    }
+
+    private void validateDateTime(LocalDateTime start_time, LocalDateTime end_time) {
+        if(start_time.isAfter(end_time))
+            throw new IllegalArgumentException("끝나는 시간이 시작 시간보다 빠를 수는 없습니다.");
     }
 }

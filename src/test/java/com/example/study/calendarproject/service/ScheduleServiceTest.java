@@ -15,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.*;
 
@@ -47,6 +48,26 @@ class ScheduleServiceTest {
 
         //Then
         then(scheduleRepository).should().save(any(Schedule.class));
+    }
+
+    @DisplayName("스케줄 정보 입력 도중 잘못된 시간 입력시(start_time이 end_time보다 늦을 경우) 예외를 발생시키고 메시지를 남긴다..")
+    @Test
+    void givenScheduleInfoWithIllegalTime_whenCreateSchedule_thenThrowException() {
+        Throwable t = catchThrowable(() -> createScheduleDto(
+                3L,
+                "private session",
+                "경북대학교 도서관",
+                Category.ETC,
+                LocalDateTime.of(2022, 11, 25, 20, 30),
+                LocalDateTime.of(2022, 11, 25, 19, 30),
+                "초청강연",
+                RepeatOption.DAY
+        ));
+
+        //Then
+        assertThat(t)
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("끝나는 시간이 시작 시간보다 빠를 수는 없습니다.");
     }
 
     @DisplayName("스케줄의 수정정보를 입력하면, 스케줄을 수정한다.")
