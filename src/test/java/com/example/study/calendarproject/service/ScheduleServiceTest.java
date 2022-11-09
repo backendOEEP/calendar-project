@@ -81,7 +81,7 @@ class ScheduleServiceTest {
         given(scheduleRepository.getReferenceById(dto.getId())).willReturn(schedule);
 
         //When
-        sut.updateSchedule(dto);
+        sut.updateSchedule(dto.getId(), dto);
 
         //Then
         assertThat(schedule)
@@ -104,7 +104,7 @@ class ScheduleServiceTest {
                 "private session",
                 "경북대학교 도서관",
                 Category.ETC,
-                LocalDateTime.of(2022, 11, 25, 20, 30),
+                LocalDateTime.of(2022, 11, 25, 10, 30),
                 LocalDateTime.of(2022, 11, 25, 19, 30),
                 "초청강연",
                 RepeatOption.DAY
@@ -112,7 +112,7 @@ class ScheduleServiceTest {
         given(scheduleRepository.getReferenceById(dto.getId())).willThrow(EntityNotFoundException.class);
 
         //When
-        sut.updateSchedule(dto);
+        sut.updateSchedule(dto.getId(), dto);
 
         //Then
         then(scheduleRepository).should().getReferenceById(dto.getId());
