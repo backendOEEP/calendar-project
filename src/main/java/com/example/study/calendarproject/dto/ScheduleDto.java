@@ -54,6 +54,7 @@ public class ScheduleDto {
         return Schedule.of(name, location, category, start_time, end_time, description, repeatOption);
     }
 
+    //스케줄이 생성될때 확인하는 메서드인데 나중에 ScheduleRequest 클래스 만들어서 거기로 옮길 예정 (DTO는 Getter Setter만 가능하다..)
     private void validateDateTime(LocalDateTime start_time, LocalDateTime end_time) {
         if(start_time.isAfter(end_time))
             throw new IllegalArgumentException("끝나는 시간이 시작 시간보다 빠를 수는 없습니다.");
