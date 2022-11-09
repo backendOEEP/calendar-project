@@ -12,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,6 +27,7 @@ import static org.mockito.BDDMockito.*;
  * *** 이후에 할 것 ***
  * 사용자 추가
  * 초대링크 생성하기
+ * User api 만들어졌으면 스케줄 조회 가능하도록 테스트
  */
 @ExtendWith(MockitoExtension.class)
 class ScheduleServiceTest {
@@ -72,7 +74,7 @@ class ScheduleServiceTest {
 
     @DisplayName("스케줄의 수정정보를 입력하면, 스케줄을 수정한다.")
     @Test
-    void givenModifiedSchduleInfo_whenUpdatingSchedule_thenUpdatesSchedule() {
+    void givenModifiedScheduleInfo_whenUpdatingSchedule_thenUpdatesSchedule() {
         //Given
         Schedule schedule = createSchedule();
         ScheduleDto dto = createScheduleDto();
@@ -90,6 +92,29 @@ class ScheduleServiceTest {
                 .hasFieldOrPropertyWithValue("end_time", dto.getEnd_time())
                 .hasFieldOrPropertyWithValue("description", dto.getDescription())
                 .hasFieldOrPropertyWithValue("repeatOption", dto.getRepeatOption());
+        then(scheduleRepository).should().getReferenceById(dto.getId());
+    }
+
+    @DisplayName("없는 스케줄의 수정정보를 입력하면, 경고 로고를 찍고 아무것도 하지 않는다.")
+    @Test
+    void givenNonexistentScheduleInfo_whenUpdatingSchedule_thenLogWarningAndDoesNothing() {
+        //Given
+        ScheduleDto dto = createScheduleDto(
+                3L,
+                "private session",
+                "경북대학교 도서관",
+                Category.ETC,
+                LocalDateTime.of(2022, 11, 25, 20, 30),
+                LocalDateTime.of(2022, 11, 25, 19, 30),
+                "초청강연",
+                RepeatOption.DAY
+        );
+        given(scheduleRepository.getReferenceById(dto.getId())).willThrow(EntityNotFoundException.class);
+
+        //When
+        sut.updateSchedule(dto);
+
+        //Then
         then(scheduleRepository).should().getReferenceById(dto.getId());
     }
 
