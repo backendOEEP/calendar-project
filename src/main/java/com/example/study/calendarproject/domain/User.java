@@ -20,7 +20,7 @@ public class User {
     @Id @Column(length=30) private String userId;
 
     @Setter @Column(nullable = false) private String password;
-    @Setter @Column(length = 50) private String nickname;
+    @Setter @Column(length = 50) private String userName;
     @Setter private String email;
 
     @ToString.Exclude @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -28,15 +28,15 @@ public class User {
 
     protected User() {}
 
-    private User(String userId, String password, String nickname, String email) {
+    private User(String userId, String password, String userName, String email) {
         this.userId = userId;
         this.password = password;
-        this.nickname = nickname;
+        this.userName = userName;
         this.email = email;
     }
 
-    public static User of(String userId, String userPassword, String nickname, String email) {
-        return new User(userId, userPassword, nickname, email);
+    public static User of(String userId, String userPassword, String userName, String email) {
+        return new User(userId, userPassword, userName, email);
     }
 
     @Override
